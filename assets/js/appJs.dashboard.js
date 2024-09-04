@@ -219,7 +219,10 @@
     ,
     e.prototype.init = function() {
         r("#dash-daterange").daterangepicker({
-            singleDatePicker: !0
+            singleDatePicker: true,
+            locale: {
+                format: 'MMMM D, YYYY'
+            }
         }),
         this.initCharts(),
         this.initMaps()
