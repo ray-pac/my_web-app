@@ -5,13 +5,13 @@
   fetch(sheetUrl)
     .then(response => response.text())
     .then(csvText => {
-        console.log(csvText)
       const data = parseCSV(csvText);
       displayData(data);
     });
 
   // Function to parse CSV text into a 2D array
   function parseCSV(csvText) {
+       console.log(csvText)
     return csvText.split('\n').map(row => row.split(','));
   }
 
