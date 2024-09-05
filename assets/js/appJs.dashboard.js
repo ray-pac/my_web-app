@@ -1,19 +1,19 @@
 !function(r) {
     const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaL8lVqLf9GEnOHdJ2gEU8zJKWoer2qrxTjYQofyaUBc7e9HDXg1j_3niC_KDHNjJPjl0iRmuvtA0n/pub?gid=0&output=csv';
 
-  // Fetch data from Google Sheets
+    // Fetch data from Google Sheets
   fetch(sheetUrl)
     .then(response => response.text())
     .then(csvText => {
-      const data = parseCSV(csvText);
-      displayData(data);
+      // Use PapaParse to parse the CSV data
+      Papa.parse(csvText, {
+        complete: function(results) {
+          displayData(results.data);
+        },
+        header: false,
+        skipEmptyLines: true
+      });
     });
-
-  // Function to parse CSV text into a 2D array
-  function parseCSV(csvText) {
-       console.log(csvText)
-    return csvText.split('\n').map(row => row.split(','));
-  }
 
   // Function to dynamically display data in the table
   function displayData(data) {
