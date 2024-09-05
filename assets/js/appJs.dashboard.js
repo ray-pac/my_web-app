@@ -12,7 +12,7 @@
   // Function to parse CSV text into a 2D array
   function parseCSV(csvText) {
        console.log(csvText)
-    return csvText.map(row => row.split(','));
+    return csvText.split('\n').map(row => row.split(','));
   }
 
   // Function to dynamically display data in the table
