@@ -1,23 +1,41 @@
 !function(r) {
-    const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaL8lVqLf9GEnOHdJ2gEU8zJKWoer2qrxTjYQofyaUBc7e9HDXg1j_3niC_KDHNjJPjl0iRmuvtA0n/pub?gid=0&output=csv';
+  // Define URLs for two Google Sheets
+  const url1 = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaL8lVqLf9GEnOHdJ2gEU8zJKWoer2qrxTjYQofyaUBc7e9HDXg1j_3niC_KDHNjJPjl0iRmuvtA0n/pub?gid=0&output=csv';
+  const url2 = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSaL8lVqLf9GEnOHdJ2gEU8zJKWoer2qrxTjYQofyaUBc7e9HDXg1j_3niC_KDHNjJPjl0iRmuvtA0n/pub?gid=336841377&output=csv';
 
-    // Fetch data from Google Sheets
-  fetch(sheetUrl)
-    .then(response => response.text())
-    .then(csvText => {
-      // Use PapaParse to parse the CSV data
-      Papa.parse(csvText, {
-        complete: function(results) {
-          displayData(results.data);
-        },
-        header: false,
-        skipEmptyLines: true
-      });
+  // Fetch data from both URLs concurrently using Promise.all
+  Promise.all([
+    fetch(url1).then(response => response.text()), // Fetch from URL 1
+    fetch(url2).then(response => response.text())  // Fetch from URL 2
+  ])
+  .then(([csvData1, csvData2]) => {
+    // Parse CSV data using Papa.parse for both datasets
+    Papa.parse(csvData1, {
+      complete: function(results1) {
+        console.log("Parsed Data from URL 1:");
+        displayData(results1.data, 1); // Display parsed data from URL 1
+      },
+      header: false,
+      skipEmptyLines: true
     });
 
-  // Function to dynamically display data in the table
-  function displayData(data) {
-      console.log(data)
+    Papa.parse(csvData2, {
+      complete: function(results2) {
+        console.log("Parsed Data from URL 2:");
+        displayData(results2.data, 2); // Display parsed data from URL 2
+      },
+      header: false,
+      skipEmptyLines: true
+    });
+  })
+  .catch(error => {
+    console.error('Error fetching data:', error);
+  });
+
+  // Function to display the parsed data
+  function displayData(data, urlIndex) {
+    console.log(`Data from URL ${urlIndex}:`);
+    console.log(data); // `data` contains the parsed rows as arrays
   }
       
     "use strict";
