@@ -1,4 +1,24 @@
 !function(r) {
+    const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/YOUR_SHEET_ID/pub?gid=123456789&output=csv';
+
+  // Fetch data from Google Sheets
+  fetch(sheetUrl)
+    .then(response => response.text())
+    .then(csvText => {
+      const data = parseCSV(csvText);
+      displayData(data);
+    });
+
+  // Function to parse CSV text into a 2D array
+  function parseCSV(csvText) {
+    return csvText.split('\n').map(row => row.split(','));
+  }
+
+  // Function to dynamically display data in the table
+  function displayData(data) {
+      console.log(data)
+  }
+      
     "use strict";
     function e() {
         this.$body = r("body"),
