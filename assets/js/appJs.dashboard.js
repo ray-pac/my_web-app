@@ -5,6 +5,7 @@
   fetch(sheetUrl)
     .then(response => response.text())
     .then(csvText => {
+        console.log(csvText)
       const data = parseCSV(csvText);
       displayData(data);
     });
